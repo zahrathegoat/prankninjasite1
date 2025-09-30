@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Open me</title>
+  <style>
+    html,body { height:100%; margin:0; background:#000; overflow:hidden; }
+    .bg {
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.6));
+    }
+    img.prank {
+      width:80vmin; height:auto; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.7);
+      opacity:0; transform: scale(.9);
+      transition: opacity 700ms cubic-bezier(.2,.9,.2,1), transform 700ms cubic-bezier(.2,.9,.2,1);
+    }
+    img.prank.show { opacity:1; transform: scale(1); }
+    .close {
+      position:fixed; top:14px; right:14px; background:rgba(0,0,0,0.45); color:#fff;
+      border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <img id="prankImg" class="prank" src="https://imgur.com/a/1nFWNNF" alt="Surprise">
+    <button class="close" id="closeBtn">Close</button>
+  </div>
+
+  <script>
+    const img = document.getElementById('prankImg');
+    const close = document.getElementById('closeBtn');
+
+    // fade in after small delay
+    window.addEventListener('load', () => {
+      setTimeout(() => img.classList.add('show'), 150);
+    });
+
+    close.addEventListener('click', () => {
+      img.classList.remove('show');
+      setTimeout(() => window.close?.(), 300); // trying to close window (may not work)
+    });
+
+    // make ESC also hide
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close.click(); });
+
+    // prevent drag and right-click
+    img.draggable = false;
+    document.addEventListener('contextmenu', e => e.preventDefault());
+  </script>
+</body>
+</html>
